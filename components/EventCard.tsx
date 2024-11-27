@@ -160,7 +160,9 @@ export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
   return (
     <div
       onClick={() => router.push(`/event/${eventId}`)}
-      className={`bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 cursor-pointer overflow-hidden relative ${isPastEvent ? 'opacity-75 hover:opacity-100' : ''}}`}
+      className={`bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 cursor-pointer overflow-hidden relative ${
+        isPastEvent ? 'opacity-75 hover:opacity-100' : ''
+      }`}
     >
       {/* Event image */}
       {imageUrl && (
@@ -178,38 +180,41 @@ export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
 
       {/* Event details */}
       <div className={`p-6 ${imageUrl ? 'relative' : ''}`}>
+        {/* Event name, owner badge, and price */}
         <div className='flex items-start justify-between'>
-          {/* Event name and owner badge */}
-          <div>
-            <div className='flex flex-col items-start gap-2'>
-              {isEventOwner && (
-                <span className='inline-flex items-center gap-1 bg-blue-600/90 text-white px-2 py-1 rounded-full text-xs font-medium'>
-                  <StarIcon className='size-3' />
-                  Your Event
-                </span>
-              )}
-              <h2 className='text-2xl font-bold text-gray-900'>{event.name}</h2>
-            </div>
+          {/* Left side: event name and owner badge */}
+          <div className='flex flex-col items-start gap-2'>
+            {isEventOwner && (
+              <span className='inline-flex items-center gap-1 bg-blue-600/90 text-white px-2 py-1 rounded-full text-xs font-medium'>
+                <StarIcon className='size-3' />
+                Your Event
+              </span>
+            )}
+            <h2 className='text-2xl font-bold text-gray-900'>{event.name}</h2>
             {isPastEvent && (
               <span className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mt-2'>
                 Past Event
               </span>
             )}
           </div>
-        </div>
 
-        {/* Price tag */}
-        <div className='flex flex-col items-end gap-2 ml-4'>
-          <span
-            className={`px-4 py-1.5 font-semibold rounded-full ${isPastEvent ? 'bg-gray-50 text-gray-500' : 'bg-green-50 text-green-700'}`}
-          >
-            €{event.price.toFixed(2)}
-          </span>
-          {availability.purchasedCount >= availability.totalTickets && (
-            <span className='px-4 py-1.5 bg-red-50 text-red-700 font-semibold rounded-full text-sm'>
-              Sold Out
+          {/* Right side: price and sold-out badge */}
+          <div className='flex flex-col items-end gap-2 ml-4'>
+            <span
+              className={`px-4 py-1.5 font-semibold rounded-full ${
+                isPastEvent
+                  ? 'bg-gray-50 text-gray-500'
+                  : 'bg-green-50 text-green-700'
+              }`}
+            >
+              €{event.price.toFixed(2)}
             </span>
-          )}
+            {availability.purchasedCount >= availability.totalTickets && (
+              <span className='px-4 py-1.5 bg-red-50 text-red-700 font-semibold rounded-full text-sm'>
+                Sold Out
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Event details */}

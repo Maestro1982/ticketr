@@ -1,4 +1,4 @@
-import { ConvexError, v } from 'convex/values';
+import { v } from 'convex/values';
 import { query, mutation } from '@/convex/_generated/server';
 import {
   DURATIONS,
@@ -189,5 +189,45 @@ export const joinWatingList = mutation({
         ? `Ticket offered - you have ${DURATIONS.TICKET_OFFER / (60 * 1000)} minutes to purchase`
         : 'Added to the waiting list - you will be notified when a ticket becomes available',
     };
+  },
+});
+
+export const cancelEvent = mutation({
+  args: { eventId: v.id('events') },
+  handler: async (ctx, { eventId }) => {
+    const event = await ctx.db.get(eventId);
+    if (!event) throw new Error('Event not found');
+
+    // Get all valid tickets for this event
+    const tickets = await ctx.db
+      .query('tickets')
+      .withIndex('by_event', (q) => q.eq('eventId', eventId))
+      .filter((q) =>
+        q.or(q.eq(q.field('status'), 'valid'), q.eq(q.field('status'), 'used'))
+      )
+      .collect();
+
+    if (tickets.length > 0) {
+      throw new Error(
+        'Cannot cancel event with active tickets. Please refund all tickets first.'
+      );
+    }
+
+    // Mark event as cancelled
+    await ctx.db.patch(eventId, {
+      is_cancelled: true,
+    });
+
+    // Delete any waiting list entries
+    const waitingListEntries = await ctx.db
+      .query('waitingList')
+      .withIndex('by_event_status', (q) => q.eq('eventId', eventId))
+      .collect();
+
+    for (const entry of waitingListEntries) {
+      await ctx.db.delete(entry._id);
+    }
+
+    return { success: true };
   },
 });

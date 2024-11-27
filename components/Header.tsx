@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -6,6 +8,8 @@ import logo from '@/images/logo.png';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 
 import { SearchBar } from '@/components/SearchBar';
+
+import { Button } from '@/components/ui/button';
 
 export const Header = () => {
   return (
@@ -29,9 +33,9 @@ export const Header = () => {
 
             <SignedOut>
               <SignInButton mode='modal'>
-                <button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
+                <Button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
                   Sign In
-                </button>
+                </Button>
               </SignInButton>
             </SignedOut>
           </div>
@@ -47,15 +51,15 @@ export const Header = () => {
           <SignedIn>
             <div className='flex items-center gap-3'>
               <Link href='/seller'>
-                <button className='bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition'>
+                <Button className='bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition'>
                   Sell Tickets
-                </button>
+                </Button>
               </Link>
 
               <Link href='/tickets'>
-                <button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
+                <Button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
                   My Tickets
-                </button>
+                </Button>
               </Link>
               <UserButton />
             </div>
@@ -63,9 +67,9 @@ export const Header = () => {
 
           <SignedOut>
             <SignInButton mode='modal'>
-              <button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
+              <Button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
                 Sign In
-              </button>
+              </Button>
             </SignInButton>
           </SignedOut>
         </div>
@@ -74,15 +78,15 @@ export const Header = () => {
         <div className='lg:hidden w-full flex justify-center gap-3'>
           <SignedIn>
             <Link href='/seller'>
-              <button className='bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition'>
+              <Button className='bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition'>
                 Sell Tickets
-              </button>
+              </Button>
             </Link>
 
             <Link href='/tickets'>
-              <button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
+              <Button className='bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300'>
                 My Tickets
-              </button>
+              </Button>
             </Link>
           </SignedIn>
         </div>

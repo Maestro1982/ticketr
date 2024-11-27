@@ -12,6 +12,8 @@ import { Id } from '@/convex/_generated/dataModel';
 
 import { ReleaseTicket } from '@/components/ReleaseTicket';
 
+import { Button } from '@/components/ui/button';
+
 export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
   const router = useRouter();
   const { user } = useUser();
@@ -85,7 +87,7 @@ export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
           </div>
         </div>
 
-        <button
+        <Button
           onClick={handlePurchase}
           disabled={isExpired || isLoading}
           className='w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-lg font-bold shadow-md hover:from-amber-600 hover:to-amber-700 transform hover:scale-[1.02] transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 text-lg'
@@ -93,7 +95,7 @@ export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
           {isLoading
             ? 'Redirecting to checkout...'
             : '"Purchase Your Ticket Now →"'}
-        </button>
+        </Button>
 
         <div className='mt-4'>
           <ReleaseTicket eventId={eventId} waitingListId={queuePostion._id} />

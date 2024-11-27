@@ -24,6 +24,8 @@ import { useStorageUrl } from '@/lib/utils';
 
 import { PurchaseTicket } from '@/components/PurchaseTicket';
 
+import { Button } from '@/components/ui/button';
+
 export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
   const { user } = useUser();
   const router = useRouter();
@@ -100,7 +102,7 @@ export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
     if (isEventOwner) {
       return (
         <div className='mt-4'>
-          <button
+          <Button
             onClick={(e) => {
               e.stopPropagation();
               router.push(`/seller/events/${eventId}/edit`);
@@ -109,7 +111,7 @@ export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
           >
             <PencilIcon className='size-5' />
             Edit Event
-          </button>
+          </Button>
         </div>
       );
     }
@@ -123,12 +125,12 @@ export const EventCard = ({ eventId }: { eventId: Id<'events'> }) => {
               You have a ticket!
             </span>
           </div>
-          <button
+          <Button
             onClick={() => router.push(`/tickets/${userTicket._id}`)}
             className='text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-full font-medium shadow-sm transition-colors duration-200 flex items-center gap-1'
           >
             View your ticket
-          </button>
+          </Button>
         </div>
       );
     }

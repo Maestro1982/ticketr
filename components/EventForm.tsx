@@ -227,7 +227,7 @@ export const EventForm = ({ mode, initialData }: EventFormProps) => {
               <FormItem>
                 <FormLabel>Event Description</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea {...field} rows={6} className='resize-none' />
                 </FormControl>
                 <FormMessage />
               </FormItem>

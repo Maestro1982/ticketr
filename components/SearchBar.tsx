@@ -2,12 +2,13 @@ import Form from 'next/form';
 import { Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { Input } from './ui/input';
 
 export const SearchBar = () => {
   return (
     <div>
       <Form action={'/search'} className='relative'>
-        <input
+        <Input
           type='text'
           name='q' // query
           placeholder='Search for events...'

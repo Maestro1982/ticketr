@@ -1,4 +1,4 @@
-import { ConvexError, v } from 'convex/values';
+import { v } from 'convex/values';
 import { internalMutation, query, mutation } from '@/convex/_generated/server';
 import {
   DURATIONS,

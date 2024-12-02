@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Ticket } from 'lucide-react';
 
@@ -13,9 +13,11 @@ import { Id } from '@/convex/_generated/dataModel';
 import { ReleaseTicket } from '@/components/ReleaseTicket';
 
 import { Button } from '@/components/ui/button';
+import { createStripeCheckoutSession } from '@/actions/createStripeCheckoutSession';
 
 export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const { user } = useUser();
 
   const queuePostion = useQuery(api.waitingList.getQueuePosition, {
@@ -55,7 +57,24 @@ export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
   }, [offerExpiresAt, isExpired]);
 
   // Create stripe checkout...
-  const handlePurchase = () => {};
+  const handlePurchase = () => {
+    if (!user) return;
+
+    startTransition(async () => {
+      try {
+        setIsLoading(true);
+        const { sessionUrl } = await createStripeCheckoutSession({ eventId });
+
+        if (sessionUrl) {
+          router.push(sessionUrl);
+        }
+      } catch (error) {
+        console.error('Error handle purchase', error);
+      } finally {
+        setIsLoading(false);
+      }
+    });
+  };
 
   if (!user || !queuePostion || queuePostion.status !== 'offered') {
     return null;
@@ -89,7 +108,7 @@ export const PurchaseTicket = ({ eventId }: { eventId: Id<'events'> }) => {
 
         <Button
           onClick={handlePurchase}
-          disabled={isExpired || isLoading}
+          disabled={isExpired || isPending}
           className='w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-lg font-bold shadow-md hover:from-amber-600 hover:to-amber-700 transform hover:scale-[1.02] transition-all duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100 text-lg'
         >
           {isLoading
